@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -16,7 +17,9 @@ import com.example.noteappdemojectpack.model.Note
 import com.example.noteappdemojectpack.screens.NoteScreen
 import com.example.noteappdemojectpack.screens.NoteViewModel
 import com.example.noteappdemojectpack.ui.theme.NoteAppDemoJectPackTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,16 +41,17 @@ fun MyApp(content: @Composable () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun MainContent() {
-    ShowNoteData(NoteViewModel())
+    val noreViewModel = viewModel<NoteViewModel>()
+    ShowNoteData(noreViewModel)
 }
 
 @Composable
 fun ShowNoteData(noteViewModel : NoteViewModel = viewModel()){
 
-    NoteScreen(notes = noteViewModel.getAllNote(),
+    NoteScreen(notes = noteViewModel.noteList.collectAsState().value,
         onAddNote = {
             noteViewModel.addNote(it)
     }, onRemove = {
-        noteViewModel.removeNote(it)
+        noteViewModel.deleteNote(it)
     })
 }

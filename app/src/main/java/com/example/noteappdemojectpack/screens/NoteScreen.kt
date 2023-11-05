@@ -126,11 +126,12 @@ fun NoteRow(modifier: Modifier= Modifier,
                 .clickable {onNoteClicked(note) }
                 .padding(14.dp),
             horizontalAlignment = Alignment.Start) {
-            Text(text = note.title, style = MaterialTheme.typography.labelMedium)
+            Text(text = note.title, style = MaterialTheme.typography.labelLarge)
             Text(text = note.desc, style = MaterialTheme.typography.labelSmall)
-            Text(text = note.enteryDate.format(DateTimeFormatter.ofPattern("EEE, d MMM")),
-                style = MaterialTheme.typography.bodyLarge)
+            Text(text = note.enteryDate.toLocaleString(),
+                style = MaterialTheme.typography.bodyMedium)
         }
+
     }
 
 }
